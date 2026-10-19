@@ -1,0 +1,33 @@
+name: BzzyAnts monorepo CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  monorepo-ci:
+    name: monorepo-ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR head or push commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate branch policy and changed domains
+        shell: bash
+        env:
+          GH_EVENT: ${{ github.event_name }}
+          PR_HEAD: ${{ github.head_ref }}
+          PR_BASE: ${{ github.base_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          git diff --check
+          bash -n .github/scripts/monorepo-ci.sh
+          bash .github/scripts/monorepo-ci.sh
