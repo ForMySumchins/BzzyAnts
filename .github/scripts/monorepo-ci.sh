@@ -6,8 +6,16 @@ error() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 report() { printf '%s\n' "$*"; }
 
 if [[ "${GH_EVENT:-}" == "pull_request" ]]; then
-  [[ "${PR_HEAD:-}" =~ ^(feat|fix|sec|chore|docs|test|refactor|perf|ci|build|release|hotfix)/[a-z0-9][a-z0-9._-]*$ ]] ||
-    error "PR branch '${PR_HEAD:-}' must use a supported domain/type prefix and lowercase slug."
+  if [[ "${PR_BASE:-}" == "main" ]]; then
+    # Integration promotion and documented emergency fixes are the only routes to main.
+    [[ "${PR_HEAD:-}" == "develop" || "${PR_HEAD:-}" =~ ^hotfix/[a-z0-9][a-z0-9._-]*$ ]] ||
+      error "PRs into main must come from develop or a hotfix/* branch."
+  elif [[ "${PR_BASE:-}" == "develop" ]]; then
+    [[ "${PR_HEAD:-}" =~ ^(feat|fix|sec|chore|docs|test|refactor|perf|ci|build|release|hotfix)/[a-z0-9][a-z0-9._-]*$ ]] ||
+      error "PR branch '${PR_HEAD:-}' must use a supported domain/type prefix and lowercase slug."
+  else
+    error "PR base '${PR_BASE:-}' must be develop or main."
+  fi
 fi
 
 head_sha="${HEAD_SHA:-HEAD}"
