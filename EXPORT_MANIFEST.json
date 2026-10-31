@@ -1,0 +1,204 @@
+{
+  "package": "BZZY_Ants_Consolidated_Source_Export",
+  "version": "2.0.0-audited-merged",
+  "generated_at": "2026-10-28T17:41:30-07:00",
+  "merged_audit_packets": [
+    "P0",
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5"
+  ],
+  "audit_fixes_verified": [
+    "F01",
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10",
+    "F11"
+  ],
+  "test_suites": {
+    "original_spark_infer_leads": "12/12 passing",
+    "monorepo_scaffold_acceptance": "11/11 passing",
+    "recovered_poway_js_pipeline": "F09/F10/F11 passing"
+  },
+  "file_count": 34,
+  "files": [
+    {
+      "path": "monorepo-scaffold/apps/field-operator/index.html",
+      "bytes": 111,
+      "sha256": "f263f17d9b7b49394ede4a40e93eac513506c5953cf984cf10d68ae379adefbb"
+    },
+    {
+      "path": "monorepo-scaffold/package.json",
+      "bytes": 75,
+      "sha256": "34f95ba39a7b8db156e5ee58ee8b1419ded872c10a224efed2fd7946c5ab5212"
+    },
+    {
+      "path": "monorepo-scaffold/packages/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/packages/contracts/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/packages/contracts/models.py",
+      "bytes": 4845,
+      "sha256": "47a971710d4466a6b86d4402d3026f7dd4ecfaada2656fc609e12693f69657fe"
+    },
+    {
+      "path": "monorepo-scaffold/pnpm-workspace.yaml",
+      "bytes": 57,
+      "sha256": "86f70b933eb1c54dc298387eedbac8512598c87bb4bf75bd3d715d9b2dfc9f84"
+    },
+    {
+      "path": "monorepo-scaffold/pyproject.toml",
+      "bytes": 47,
+      "sha256": "dec329494d5415c33975c828f25664dd2c06d0991f5e1632910351169470b3a5"
+    },
+    {
+      "path": "monorepo-scaffold/services/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/services/ants_api/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/services/ants_api/main.py",
+      "bytes": 1876,
+      "sha256": "a22272ced8e476b1d5ec1b45b83fcbaa1d6d6db6db0b45331c794972df045b8e"
+    },
+    {
+      "path": "monorepo-scaffold/services/ants_api/routes/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/services/ingestor_core/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/services/ingestor_core/adapters/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/services/ingestor_core/adapters/base_and_permits.py",
+      "bytes": 2077,
+      "sha256": "b03529c1f7b49b38d9406a95f443e98363be3f6967119809ad6a7bd4bf24d17d"
+    },
+    {
+      "path": "monorepo-scaffold/services/ingestor_core/prober/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/services/ingestor_core/prober/ssrf_probe.py",
+      "bytes": 1024,
+      "sha256": "065fa2d7443e671bb60f1e8f6252a017ea0c0fd17750971ca03962ba8a6cd79d"
+    },
+    {
+      "path": "monorepo-scaffold/tests/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "monorepo-scaffold/tests/test_acceptance_a01_a16.py",
+      "bytes": 4078,
+      "sha256": "4614b50397f3fa02fcebd1d7b5118be6a3c01ee6c423d71a147b82c3a5e94d82"
+    },
+    {
+      "path": "original-spark-infer-leads/README.md",
+      "bytes": 860,
+      "sha256": "4db455516bf548363da96ea8af7a2ff9b62fd0b34b923834a77d86e122e59d96"
+    },
+    {
+      "path": "original-spark-infer-leads/pyproject.toml",
+      "bytes": 412,
+      "sha256": "cd175461af1a132375da0b82c87b356691dc9363103f1ede81b26217cecfe452"
+    },
+    {
+      "path": "original-spark-infer-leads/src/lead_intelligence/adapters/apify.py",
+      "bytes": 7230,
+      "sha256": "162cf22d2e79ebf85f98f84245c1bd1f33ee6c11e0c923efdd7adf0b37beb7e8"
+    },
+    {
+      "path": "original-spark-infer-leads/src/lead_intelligence/export/field_operator.py",
+      "bytes": 2947,
+      "sha256": "e0b6683273d7ca7d698615e8406ffe0e65a877822fd42a2dd4142770154d5da7"
+    },
+    {
+      "path": "original-spark-infer-leads/src/lead_intelligence/identity/dedupe.py",
+      "bytes": 3976,
+      "sha256": "28563d7970490d0028e2ed021d9bbcb93868aa8f8ec4972c14962a30908272ab"
+    },
+    {
+      "path": "original-spark-infer-leads/src/lead_intelligence/inference/engine.py",
+      "bytes": 25242,
+      "sha256": "7db0b1190e10dd736c5bc51eb95096c52a9787c1dd19bd1f7a7e1904a16f6f5c"
+    },
+    {
+      "path": "original-spark-infer-leads/src/lead_intelligence/models.py",
+      "bytes": 5300,
+      "sha256": "a1c565c736638daa618da701efb2104f1ce0463a208fe3f7621db7cfa05fc42e"
+    },
+    {
+      "path": "original-spark-infer-leads/src/lead_intelligence/security/ssrf.py",
+      "bytes": 2909,
+      "sha256": "294f5f8ca85652a67b64079a9e7dd0b512281ef392ccab4245fe385ada01b500"
+    },
+    {
+      "path": "original-spark-infer-leads/tests/test_lead_intelligence.py",
+      "bytes": 14425,
+      "sha256": "447c3be9de6ebffb0a0e09d70af8c8adbc89bcc98a9d26f7ccfeedc44b88b990"
+    },
+    {
+      "path": "recovered/field-operator/src/components/geoint/observations.tsx",
+      "bytes": 11116,
+      "sha256": "1974f4f24aec3c375e610aa6d478ec9cc8a194316bfccd5d36f100ee298832ed"
+    },
+    {
+      "path": "recovered/field-operator/src/lib/observations/storage.test.ts",
+      "bytes": 6708,
+      "sha256": "a48f7e65093902c973c141ba63d09b68b0bffcd0003779108e028aa0c06db857"
+    },
+    {
+      "path": "recovered/field-operator/src/lib/observations/storage.ts",
+      "bytes": 10362,
+      "sha256": "47258e525de4e1d392c8d21c65d5a39a3515c99fa01cf88cdc7604517c06d3a4"
+    },
+    {
+      "path": "recovered/field-operator/src/lib/observations/use-observations.ts",
+      "bytes": 2598,
+      "sha256": "61d8147d1e6a7f82d981afa9a36978c2d9090ca0cf2ca3c3b514d6723ccf0ed8"
+    },
+    {
+      "path": "recovered/legacy-poway/pipeline/h3.mjs",
+      "bytes": 3976,
+      "sha256": "3c6439cb0725093e14db1ef1ce354ffde3f4325781716c786bac8d982219b496"
+    },
+    {
+      "path": "recovered/legacy-poway/pipeline/normalize.mjs",
+      "bytes": 4013,
+      "sha256": "93309fae7226c4bb0d14eca612b0727d8ea28ffdf828b49e078479514767c7be"
+    },
+    {
+      "path": "recovered/legacy-poway/pipeline/publish.mjs",
+      "bytes": 5411,
+      "sha256": "171ea73906037bcd79839f58f2caa2ba199a8fe7b46c58bc92f9d2f83d2d69e0"
+    }
+  ]
+}
