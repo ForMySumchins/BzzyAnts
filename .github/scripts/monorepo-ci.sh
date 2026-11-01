@@ -46,7 +46,7 @@ contract=false
 
 while IFS= read -r -d '' path; do
   printf '  %q\n' "$path"
-  # Dispatcher regression tests validate CI itself in the dedicated workflow job.
+  # Dispatcher regression tests validate CI itself in the required workflow job.
   [[ "$path" == .github/scripts/tests/* ]] && continue
   # Prefixing a slash allows the same segment rules at root and at any depth.
   scoped="/$path"

@@ -45,8 +45,8 @@ initial pushes scan the whole tree. Git failures are fatal. NUL-delimited
 paths preserve spaces, quotes and newlines; disabling rename detection
 keeps deletions of source visible even when renamed into documentation.
 Branch policy still runs for empty diffs. Dispatcher tests under
-`.github/scripts/tests/` validate CI infrastructure in the always-run
-`dispatcher-tests` job, which the required `monorepo-ci` job depends on.
+`.github/scripts/tests/` validate CI infrastructure as the first validation step
+in the required `monorepo-ci` job. A test failure fails that same required job.
 They do not invoke application hooks for their own test code.
 
 ## Actual local verification (2026-11-01)
