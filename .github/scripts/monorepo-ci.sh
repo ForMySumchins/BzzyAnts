@@ -21,16 +21,22 @@ fi
 head_sha="${HEAD_SHA:-HEAD}"
 base_sha="${BASE_SHA:-}"
 git cat-file -e "${head_sha}^{commit}" || error "HEAD_SHA does not resolve to a commit."
+# Keep Git's NUL-delimited output intact, and check Git's status before reading.
+changed_file="$(mktemp)"
+trap 'rm -f "$changed_file"' EXIT
 if [[ -z "$base_sha" || "$base_sha" =~ ^0+$ ]]; then
-  changed="$(git ls-tree -r --name-only "$head_sha")"
+  git ls-tree -r --name-only -z "$head_sha" > "$changed_file" || error "Cannot enumerate source tree."
 else
   git cat-file -e "${base_sha}^{commit}" || error "BASE_SHA does not resolve to a commit."
-  changed="$(git diff --name-only "$base_sha" "$head_sha")" || error "Cannot determine changed paths."
+  if [[ "${GH_EVENT:-}" == pull_request ]]; then
+    base_sha="$(git merge-base "$base_sha" "$head_sha")" || error "Cannot determine PR merge base."
+  fi
+  # Include both sides of renames: moving application code into docs must not skip gates.
+  git diff --no-renames --name-only -z "$base_sha" "$head_sha" > "$changed_file" || error "Cannot determine changed paths."
 fi
 
-[[ -n "$changed" ]] || { report "No changed files; branch naming checked."; exit 0; }
+[[ -s "$changed_file" ]] || { report "No changed files; branch naming checked."; exit 0; }
 report "Changed paths:"
-printf '%s\n' "$changed"
 
 node=false
 python=false
@@ -38,26 +44,51 @@ tauri=false
 security=false
 contract=false
 
-while IFS= read -r path; do
-  [[ -n "$path" ]] || continue
+while IFS= read -r -d '' path; do
+  printf '  %q\n' "$path"
+  # Dispatcher regression tests validate CI itself in the dedicated workflow job.
+  [[ "$path" == .github/scripts/tests/* ]] && continue
+  # Prefixing a slash allows the same segment rules at root and at any depth.
+  scoped="/$path"
+  matched=false
 
-  # Independent checks allow one change to require multiple suites.
-  if [[ "$path" == pipeline/* || "$path" == adapters/* || "$path" == packages/pipeline/* || "$path" == packages/adapters/* || "$path" == *.mjs || "$path" == *.cjs || "$path" == *.js || "$path" == *.ts || "$path" == *.tsx || "$path" == package.json || "$path" == package-lock.json ]]; then
-    node=true
+  # Independent checks deliberately allow frontend or security files to need two suites.
+  case "$scoped" in
+    */pipeline/*|*.mjs|*.cjs|*.js|*.jsx|*.ts|*.tsx|*.mts|*.cts|*.html|*.css|*.scss|*/package.json|*/package-lock.json|*/npm-shrinkwrap.json|*/pnpm-lock.yaml|*/pnpm-workspace.yaml|*/yarn.lock|*/bun.lock|*/bun.lockb)
+      node=true; matched=true ;;
+  esac
+  case "$scoped" in
+    */python/*|*/packages/python-infer-leads/*|/original-spark-infer-leads/*|/monorepo-scaffold/services/*|*.py|*.pyi|*/pyproject.toml|*/requirements*.txt|*/poetry.lock|*/uv.lock|*/Pipfile|*/Pipfile.lock)
+      python=true; matched=true ;;
+  esac
+  # Python adapters are not Node adapters merely because of their directory name.
+  case "$scoped" in
+    /original-spark-infer-leads/*|/monorepo-scaffold/services/*) ;;
+    */adapters/*) node=true; matched=true ;;
+  esac
+  case "$scoped" in
+    */apps/tauri/*|*/field-operator/*|*/src-tauri/*|*.rs|*/Cargo.toml|*/Cargo.lock)
+      tauri=true; matched=true ;;
+  esac
+  case "$scoped" in
+    */field-operator/*) node=true ;;
+  esac
+  case "$scoped" in
+    */security/*|*/prober/*|*ssrf*|*scrubber.rs|*quarantine.ts)
+      security=true; matched=true ;;
+  esac
+  case "$scoped" in
+    */contracts/*|*ants-to-bees.schema.json|*/kiro/*)
+      contract=true; matched=true ;;
+  esac
+  # New file types under recovered application roots must never silently pass.
+  if [[ "$matched" == false ]]; then
+    case "$scoped" in
+      /monorepo-scaffold/*|/recovered/*)
+        node=true; python=true; tauri=true; security=true ;;
+    esac
   fi
-  if [[ "$path" == python/* || "$path" == packages/python/* || "$path" == packages/python-infer-leads/* || "$path" == *.py || "$path" == pyproject.toml || "$path" == requirements.txt || "$path" == poetry.lock ]]; then
-    python=true
-  fi
-  if [[ "$path" == apps/tauri/* || "$path" == apps/field-operator/* || "$path" == src-tauri/* || "$path" == *.rs || "$path" == Cargo.toml || "$path" == Cargo.lock ]]; then
-    tauri=true
-  fi
-  if [[ "$path" == security/* || "$path" == packages/security/* || "$path" == *scrubber.rs || "$path" == *quarantine.ts ]]; then
-    security=true
-  fi
-  if [[ "$path" == contracts/* || "$path" == *ants-to-bees.schema.json || "$path" == kiro/* ]]; then
-    contract=true
-  fi
-done <<< "$changed"
+done < "$changed_file"
 
 run_hook() {
   local name="$1"

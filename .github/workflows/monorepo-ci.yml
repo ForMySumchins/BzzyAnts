@@ -10,13 +10,26 @@ permissions:
   contents: read
 
 jobs:
+  dispatcher-tests:
+    name: dispatcher-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Test routing, branch policy, and fail-closed gates
+        run: python3 -m unittest discover -s .github/scripts/tests -v
+
   monorepo-ci:
     name: monorepo-ci
+    needs: dispatcher-tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out PR head or push commit
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - name: Validate branch policy and changed domains
